@@ -2,9 +2,8 @@
 #define IO_H
 #include "../afd/afd.h"
 
-void generateAfdFromFile(char *filename);
-State *readState(char *line);
-Transition *readTransition(char *line);
-char *readSymbol(char *line);
+void mallocAfdFromFile(char *filename);
+void exportAfdDot(char *filename);
+void exportAcceptedWords(char *filename);
 
 #endif

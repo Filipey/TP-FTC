@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "state.h"
 
 /**
@@ -10,7 +11,7 @@
  */
 State *createState(char *name, bool isFinal)
 {
-  State *newState = (State *)malloc(1 * sizeof(State));
+  State *newState = malloc(1 * sizeof(State));
 
   newState->name = name;
   newState->isFinal = isFinal;
@@ -19,7 +20,15 @@ State *createState(char *name, bool isFinal)
 }
 
 /**
- * Aloca um conjunto de estados em memoria para todos os estados
+ * Libera memória para um Estado alocado
+ */
+void freeState(State *state)
+{
+  free(state);
+}
+
+/**
+ * Aloca um conjunto de estados vazio em memoria para todos os estados
  * @param size Quantidade de estados
  * @return Conjunto alocado em memória
  */
@@ -27,24 +36,54 @@ StateSet *initializeStateSet(int size)
 {
   StateSet *set = malloc(1 * sizeof(StateSet));
   set->size = size;
-  set->states = malloc(size * sizeof(State));
+  set->states = malloc(size * sizeof(State *));
+
+  for (int i = 0; i < set->size; i++)
+  {
+    set->states[i] = malloc(sizeof(State));
+    set->states[i]->name = malloc(100 * sizeof(char));
+    strncpy(set->states[i]->name, "", 1);
+    set->states[i]->isFinal = false;
+  }
 
   return set;
 }
 
 /**
- * Adiciona um novo estado ao conjunto de estados
- * @param state estado a ser adicionado
- * @param set conjunto de estados
+ * Libera memória para um conjunto de Estados alocados
  */
-void addStateToSet(State *state, StateSet *set)
+void freeStateSet(StateSet *set)
 {
   for (int i = 0; i < set->size; i++)
   {
-    if (set->states[i] == NULL)
+    free(set->states[i]);
+  }
+
+  free(set);
+}
+
+/**
+ * Adiciona um novo estado ao conjunto de estados
+ * @param state Estado a ser adicionado
+ * @param set Conjunto de Estados
+ */
+void addStateToSet(State *state, StateSet *set, int index)
+{
+  set->states[index] = state;
+}
+
+/**
+ * Busca por um Estado no conjunto de estados
+ * @param stateSymbol Nome do Estado
+ * @param set Conjunto de Estados
+ */
+State *findStateInSet(char *stateSymbol, StateSet *set)
+{
+  for (int i = 0; i < set->size; i++)
+  {
+    if (set->states[i]->name == stateSymbol)
     {
-      set->states[i] = state;
-      return;
+      return set->states[i];
     }
   }
 }

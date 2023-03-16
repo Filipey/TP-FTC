@@ -25,7 +25,10 @@ typedef struct StateSet
 } StateSet;
 
 State *createState(char *name, bool isFinal);
+void freeState(State *state);
 StateSet *initializeStateSet(int size);
-void addStateToSet(State *state, StateSet *set);
+void freeStateSet(StateSet *set);
+void addStateToSet(State *state, StateSet *set, int index);
+State *findStateInSet(char *stateSymbol, StateSet *set);
 
 #endif

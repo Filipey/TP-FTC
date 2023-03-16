@@ -9,9 +9,9 @@
 typedef struct Alphabet
 {
   int size;
-  char *symbols;
+  char **symbols;
 } Alphabet;
 
-Alphabet *initializeAlphabet(int size, char *symbols);
+Alphabet *initializeAlphabet(int size, char **symbols);
 
 #endif

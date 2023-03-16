@@ -4,6 +4,6 @@
 
 int main()
 {
-  generateAfdFromFile("inputs/afd.txt");
+  mallocAfdFromFile("inputs/afd.txt");
   return 0;
 }

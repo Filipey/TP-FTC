@@ -8,7 +8,7 @@
  * @param sink Estado de destino
  * @return Transição alocada com valores setados
  */
-Transition *createTransition(char symbol, State *source, State *sink)
+Transition *createTransition(char *symbol, State *source, State *sink)
 {
   Transition *transition = malloc(1 * sizeof(Transition));
   transition->symbol = symbol;
@@ -23,7 +23,7 @@ Transition *createTransition(char symbol, State *source, State *sink)
  * @param size Quantidade de transições
  * @return Conjunto alocado
  */
-TransitionSet *initializeSet(int size)
+TransitionSet *initializeTransitionsSet(int size)
 {
   TransitionSet *set = malloc(1 * sizeof(TransitionSet));
   set->size = size;

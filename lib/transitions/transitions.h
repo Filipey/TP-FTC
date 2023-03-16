@@ -10,7 +10,7 @@
  */
 typedef struct Transition
 {
-  char symbol;
+  char *symbol;
   State *source;
   State *sink;
 } Transition;
@@ -26,8 +26,8 @@ typedef struct TransitionSet
   Transition **transitions;
 } TransitionSet;
 
-Transition *createTransition(char symbol, State *source, State *sink);
-TransitionSet *initializeSet(int size);
+Transition *createTransition(char *symbol, State *source, State *sink);
+TransitionSet *initializeTransitionsSet(int size);
 void addTransitionToSet(Transition *transition, TransitionSet *set);
 
 #endif
