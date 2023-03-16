@@ -38,14 +38,6 @@ StateSet *initializeStateSet(int size)
   set->size = size;
   set->states = malloc(size * sizeof(State *));
 
-  for (int i = 0; i < set->size; i++)
-  {
-    set->states[i] = malloc(sizeof(State));
-    set->states[i]->name = malloc(100 * sizeof(char));
-    strncpy(set->states[i]->name, "", 1);
-    set->states[i]->isFinal = false;
-  }
-
   return set;
 }
 
@@ -69,21 +61,32 @@ void freeStateSet(StateSet *set)
  */
 void addStateToSet(State *state, StateSet *set, int index)
 {
-  set->states[index] = state;
+  set->states[index] = malloc(sizeof(State));
+  set->states[index]->name = malloc(100 * sizeof(char));
+  strcpy(set->states[index]->name, state->name);
+  set->states[index]->isFinal = state->isFinal;
 }
 
 /**
  * Busca por um Estado no conjunto de estados
- * @param stateSymbol Nome do Estado
+ * @param stateName Nome do Estado
  * @param set Conjunto de Estados
  */
-State *findStateInSet(char *stateSymbol, StateSet *set)
+State *findStateInSet(char *stateName, StateSet *set)
 {
   for (int i = 0; i < set->size; i++)
   {
-    if (set->states[i]->name == stateSymbol)
+    if (strcmp(set->states[i]->name, stateName) == 0)
     {
       return set->states[i];
     }
   }
+}
+
+/**
+ * Atualiza o rótulo de um Estado
+ */
+State *updateStateFinalCondition(State *state, bool newCondition)
+{
+  state->isFinal = newCondition;
 }

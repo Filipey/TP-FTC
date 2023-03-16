@@ -16,3 +16,16 @@ Alphabet *initializeAlphabet(int size, char **symbols)
 
   return alphabet;
 }
+
+/**
+ * Libera a memória alocada para um alfabeto
+ */
+void freeAlphabet(Alphabet *alphabet)
+{
+  for (int i = 0; i < alphabet->size; i++)
+  {
+    free(alphabet->symbols[i]);
+  }
+
+  free(alphabet);
+}

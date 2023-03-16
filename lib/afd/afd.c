@@ -27,13 +27,13 @@ Afd *initializeAfd(Alphabet *alphabet,
 
 /**
  * Libera memória alocada para um AFD
- * @param afd AFD alocado
+ * @param afd AFD em memória
  */
 void freeMemory(Afd *afd)
 {
-  free(afd->alphabet);
-  free(afd->initialState);
-  free(afd->states);
-  free(afd->finalStates);
-  free(afd->transitions);
+  freeAlphabet(afd->alphabet);
+  freeState(afd->initialState);
+  freeStateSet(afd->states);
+  freeStateSet(afd->finalStates);
+  freeTransitionSet(afd->transitions);
 }

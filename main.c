@@ -4,6 +4,7 @@
 
 int main()
 {
-  mallocAfdFromFile("inputs/afd.txt");
+  Afd *afd = mallocAfdFromFile("inputs/afd.txt");
+  freeMemory(afd);
   return 0;
 }

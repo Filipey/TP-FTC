@@ -2,7 +2,7 @@
 #define IO_H
 #include "../afd/afd.h"
 
-void mallocAfdFromFile(char *filename);
+Afd *mallocAfdFromFile(char *filename);
 void exportAfdDot(char *filename);
 void exportAcceptedWords(char *filename);
 

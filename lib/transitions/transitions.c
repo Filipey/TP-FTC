@@ -48,3 +48,24 @@ void addTransitionToSet(Transition *transition, TransitionSet *set)
     }
   }
 }
+
+/**
+ * Libera memória alocada para uma Transição
+ */
+void freeTransition(Transition *transition)
+{
+  free(transition);
+}
+
+/**
+ * Libera memória alocada para um conjunto de transições
+ */
+void freeTransitionSet(TransitionSet *set)
+{
+  for (int i = 0; i < set->size; i++)
+  {
+    freeTransition(set->transitions[i]);
+  }
+
+  free(set);
+}

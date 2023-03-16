@@ -13,5 +13,6 @@ typedef struct Alphabet
 } Alphabet;
 
 Alphabet *initializeAlphabet(int size, char **symbols);
+void freeAlphabet(Alphabet *alphabet);
 
 #endif
