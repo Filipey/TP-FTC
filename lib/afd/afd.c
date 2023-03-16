@@ -31,9 +31,7 @@ Afd *initializeAfd(Alphabet *alphabet,
  */
 void freeMemory(Afd *afd)
 {
-  freeAlphabet(afd->alphabet);
-  freeState(afd->initialState);
   freeStateSet(afd->states);
-  freeStateSet(afd->finalStates);
+  freeAlphabet(afd->alphabet);
   freeTransitionSet(afd->transitions);
 }

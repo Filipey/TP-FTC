@@ -54,6 +54,7 @@ void addTransitionToSet(Transition *transition, TransitionSet *set)
  */
 void freeTransition(Transition *transition)
 {
+  free(transition->symbol);
   free(transition);
 }
 

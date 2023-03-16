@@ -72,6 +72,7 @@ Afd *mallocAfdFromFile(char *filename)
       {
         char *symbol = fgets(buffer, 100, file);
         symbols[i] = malloc(strlen(symbol) + 1);
+        symbol[strcspn(symbol, "\n")] = '\0';
         strcpy(symbols[i], symbol);
         remainingSymbols--;
       }
@@ -137,4 +138,64 @@ Afd *mallocAfdFromFile(char *filename)
 
   return initializeAfd(alphabet, initialState, statesSet,
                        finalStates, transitionsSet);
+}
+
+void writeStatesInTxt(StateSet *stateSet, FILE *file)
+{
+  for (int i = 0; i < stateSet->size; i++)
+  {
+    fprintf(file, "%s\n", stateSet->states[i]->name);
+  }
+}
+
+void writeSymbolsInTxt(Alphabet *alphabet, FILE *file)
+{
+  for (int i = 0; i < alphabet->size; i++)
+  {
+    fprintf(file, "%s\n", alphabet->symbols[i]);
+  }
+}
+
+void writeTransitionsInTxt(TransitionSet *transitionsSet, FILE *file)
+{
+  for (int i = 0; i < transitionsSet->size; i++)
+  {
+    char *sourceState = transitionsSet->transitions[i]->source->name;
+    char *readedSymbol = transitionsSet->transitions[i]->symbol;
+    char *sinkState = transitionsSet->transitions[i]->sink->name;
+    fprintf(file, "%s %s %s\n", sourceState, readedSymbol, sinkState);
+  }
+}
+
+void writeFinalStatesInTxt(StateSet *statesSet, FILE *file)
+{
+  for (int i = 0; i < statesSet->size; i++)
+  {
+    fprintf(file, "%s\n", statesSet->states[i]->name);
+  }
+}
+
+void exportAfdTxt(Afd *afd, char *filename)
+{
+  char path[100];
+  snprintf(path, sizeof(path), "outputs/%s", filename);
+  FILE *file = fopen(path, "wt");
+
+  if (file == NULL)
+  {
+    printf("Erro ao escrever arquivo!");
+    exit(1);
+  }
+
+  fprintf(file, "%d\n", afd->states->size);       // Quantidade de Estados
+  writeStatesInTxt(afd->states, file);            // Escreve cada Estado em uma linha
+  fprintf(file, "%d\n", afd->alphabet->size);     // Quantidade de símbolos
+  writeSymbolsInTxt(afd->alphabet, file);         // Escreve cada símbolo em uma linha
+  fprintf(file, "%d\n", afd->transitions->size);  // Quantidade de transições
+  writeTransitionsInTxt(afd->transitions, file);  // Escreve cada transição em uma linha
+  fprintf(file, "%s\n", afd->initialState->name); // Escreve o Estado inicial
+  fprintf(file, "%d\n", afd->finalStates->size);  // Escreve a quantidade de estados finais
+  writeFinalStatesInTxt(afd->finalStates, file);  // Escreve cada Estado final em uma linha
+
+  fclose(file);
 }

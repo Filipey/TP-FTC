@@ -24,6 +24,7 @@ State *createState(char *name, bool isFinal)
  */
 void freeState(State *state)
 {
+  free(state->name);
   free(state);
 }
 
@@ -48,7 +49,7 @@ void freeStateSet(StateSet *set)
 {
   for (int i = 0; i < set->size; i++)
   {
-    free(set->states[i]);
+    freeState(set->states[i]);
   }
 
   free(set);
