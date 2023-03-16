@@ -1,3 +1,4 @@
 .vscode
 afdtool
 outputs
+*.pdf

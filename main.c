@@ -5,7 +5,8 @@
 int main()
 {
   Afd *afd = mallocAfdFromFile("inputs/afd.txt");
-  exportAfdTxt(afd, "teste-impar-par.txt");
+  exportAfdTxt("teste-impar-par.txt", afd);
+  exportAfdDot("teste-impar-par.dot", afd);
   freeMemory(afd);
   return 0;
 }

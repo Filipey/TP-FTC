@@ -175,7 +175,7 @@ void writeFinalStatesInTxt(StateSet *statesSet, FILE *file)
   }
 }
 
-void exportAfdTxt(Afd *afd, char *filename)
+void exportAfdTxt(char *filename, Afd *afd)
 {
   char path[100];
   snprintf(path, sizeof(path), "outputs/%s", filename);
@@ -197,5 +197,65 @@ void exportAfdTxt(Afd *afd, char *filename)
   fprintf(file, "%d\n", afd->finalStates->size);  // Escreve a quantidade de estados finais
   writeFinalStatesInTxt(afd->finalStates, file);  // Escreve cada Estado final em uma linha
 
+  fclose(file);
+}
+
+FILE *writeDotTemplate(char *filename)
+{
+  char path[100];
+  snprintf(path, sizeof(path), "outputs/%s", filename);
+  FILE *file = fopen(path, "wt");
+
+  fprintf(file, "digraph finite_state_machine {\n");
+  fprintf(file, "  fontname=\"Helvetica, Arial, sans-serif\"\n");
+  fprintf(file, "  node [fotname=\"Helvetica, Arial, sans-serif\"]\n");
+  fprintf(file, "  edge [fontname=\"Helvetica, Arial, sans-serif\"]\n");
+  fprintf(file, "  rankdir=LR\n");
+
+  return file;
+}
+
+void writeFinalStatesInDot(StateSet *finalStates, FILE *file)
+{
+  char *finalStatesString = malloc(200 * sizeof(char));
+  memset(finalStatesString, 0, 200 * sizeof(char)); // Remove lixo de memória se houver
+
+  for (int i = 0; i < finalStates->size; i++)
+  {
+    char *currentState = finalStates->states[i]->name;
+    if (i == finalStates->size - 1) // Se for o último estado final, não é necessário espaçamento
+    {
+      strcat(finalStatesString, currentState);
+    }
+    else
+    {
+      strcat(currentState, " ");
+      strcat(finalStatesString, currentState);
+    }
+  }
+
+  fprintf(file, "  node [shape = doublecircle]; %s;\n", finalStatesString);
+  fprintf(file, "  node [shape = circle];\n");
+  free(finalStatesString);
+}
+
+void writeTransitionsInDot(TransitionSet *transitionSet, FILE *file)
+{
+  for (int i = 0; i < transitionSet->size; i++)
+  {
+    char *sourceState = transitionSet->transitions[i]->source->name;
+    char *sinkState = transitionSet->transitions[i]->sink->name;
+    char *symbol = transitionSet->transitions[i]->symbol;
+
+    fprintf(file, "  %s -> %s [label = \"%s\"];\n", sourceState, sinkState, symbol);
+  }
+  fprintf(file, "}");
+}
+
+void exportAfdDot(char *filename, Afd *afd)
+{
+  FILE *file = writeDotTemplate(filename);
+  writeFinalStatesInDot(afd->finalStates, file);
+  writeTransitionsInDot(afd->transitions, file);
   fclose(file);
 }
