@@ -1,0 +1,17 @@
+4
+primeiro
+segundo
+terceiro
+quarto
+2
+0
+1
+5
+primeiro 0 terceiro
+primeiro 1 quarto
+segundo 0 primeiro
+terceiro 1 segundo
+quarto 1 segundo
+primeiro
+1
+terceiro
