@@ -59,7 +59,7 @@ Afd *mallocAfdFromFile(char *filename)
       char *stateName = malloc(100 * sizeof(char));
       line[strcspn(line, "\n")] = '\0';
       strcpy(stateName, line);
-      State *currentState = createState(stateName, 0);
+      State *currentState = createState(stateName, false);
       addStateToSet(currentState, statesSet, currentStatesSetLastIndex);
       currentStatesSetLastIndex++;
     }
@@ -120,17 +120,21 @@ Afd *mallocAfdFromFile(char *filename)
       remainingFinalStates = finalStatesCount;
     }
 
-    if (foundedInitialState && finalStatesCount != 0) // Lendo Estados finais
+    if (foundedInitialState && remainingFinalStates != 0) // Lendo Estados finais
     {
-      line = fgets(buffer, 100, file);
-      remainingFinalStates--;
-      char *stateName = malloc(100 * sizeof(char));
-      line[strcspn(line, "\n")] = '\0';
-      strcpy(stateName, line);
-      State *currentState = findStateInSet(stateName, statesSet);
-      updateStateFinalCondition(currentState, true);
-      addStateToSet(currentState, finalStates, currentFinalStatesSetIndex);
-      currentFinalStatesSetIndex++;
+      for (int i = 0; i < finalStatesCount; i++)
+      {
+        line = fgets(buffer, 100, file);
+        char *stateName = malloc(100 * sizeof(char));
+        line[strcspn(line, "\n")] = '\0';
+        strcpy(stateName, line);
+        State *currentState = findStateInSet(stateName, statesSet);
+        updateStateFinalCondition(currentState, true);
+        addStateToSet(currentState, finalStates, currentFinalStatesSetIndex);
+        remainingFinalStates--;
+        currentFinalStatesSetIndex++;
+        free(stateName);
+      }
     }
 
     lineCount++;
