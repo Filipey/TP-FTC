@@ -10,7 +10,9 @@
  */
 Afd *mallocAfdFromFile(char *filename)
 {
-  FILE *file = fopen(filename, "rt");
+  char path[100];
+  snprintf(path, sizeof(path), "inputs/%s", filename);
+  FILE *file = fopen(path, "rt");
 
   char *line;
   char buffer[100];
@@ -202,6 +204,7 @@ void exportAfdTxt(char *filename, Afd *afd)
 
 FILE *writeDotTemplate(char *filename)
 {
+  printf("NOME DO ARQUIVO .DOT: %s", filename);
   char path[100];
   snprintf(path, sizeof(path), "outputs/%s", filename);
   FILE *file = fopen(path, "wt");
