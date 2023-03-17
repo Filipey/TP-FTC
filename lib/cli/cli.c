@@ -5,13 +5,15 @@
 #include "../io/io.h"
 #include "string.h"
 
+/**
+ * Operação de visualização do AFD em .txt ou .dot
+ * @param inputFilename Nome do arquivo de entrada
+ * @param outputFileExtension Extensão do arquivo de saída
+ * @param outputFilename Nome do arquivo de saída
+ */
 void visualization(char *inputFilename, char *outputFileExtension, char *outputFilename)
 {
   Afd *afd = mallocAfdFromFile(inputFilename);
-
-  printf("INPUT FILENAME: %s", inputFilename);
-  printf("OUTPUT FILE EXTENSION: %s", outputFileExtension);
-  printf("OUTPUT FILENAME: %s", outputFilename);
 
   if (strcmp(outputFileExtension, ".dot") == 0)
   {
@@ -27,5 +29,22 @@ void visualization(char *inputFilename, char *outputFileExtension, char *outputF
   {
     printf("Erro ao ler o gerar arquivo: %s%s", outputFilename, outputFileExtension);
     exit(1);
+  }
+}
+
+/**
+ * Rotina que trata as entradas do programa via CLI
+ * @param argc Número de argumentos inseridos
+ * @param argv Lista com argumentos inseridos
+ */
+void handleOperations(int argc, char *argv[])
+{
+  if (strcmp(argv[1], "--visualizacao") == 0 && argc == 5)
+  {
+    visualization(argv[2], argv[3], argv[4]);
+  }
+  else
+  {
+    printf("Parâmetros não reconhecidos. Verifique se a quantidade fornecida foi correta ou se um input realmente existe no diretório inputs.");
   }
 }

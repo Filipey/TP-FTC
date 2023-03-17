@@ -142,6 +142,11 @@ Afd *mallocAfdFromFile(char *filename)
                        finalStates, transitionsSet);
 }
 
+/**
+ * Escreve a todos os estados, um por linha, no arquivo txt
+ * @param stateSet Conjunto de estados
+ * @param file Ponteiro para o arquivo
+ */
 void writeStatesInTxt(StateSet *stateSet, FILE *file)
 {
   for (int i = 0; i < stateSet->size; i++)
@@ -150,6 +155,11 @@ void writeStatesInTxt(StateSet *stateSet, FILE *file)
   }
 }
 
+/**
+ * Escreve todos os símbolos do alfabeto, um por linha, no arquivo txt
+ * @param alphabet Alfabeto do AFD
+ * @param file Ponteiro para o arquivo
+ */
 void writeSymbolsInTxt(Alphabet *alphabet, FILE *file)
 {
   for (int i = 0; i < alphabet->size; i++)
@@ -158,6 +168,11 @@ void writeSymbolsInTxt(Alphabet *alphabet, FILE *file)
   }
 }
 
+/**
+ * Escreve todas as transições do AFD, uma por linha, no arquivo txt
+ * @param transitionsSet Conjunto de transições do AFD
+ * @param file Ponteiro para o arquivo
+ */
 void writeTransitionsInTxt(TransitionSet *transitionsSet, FILE *file)
 {
   for (int i = 0; i < transitionsSet->size; i++)
@@ -169,6 +184,11 @@ void writeTransitionsInTxt(TransitionSet *transitionsSet, FILE *file)
   }
 }
 
+/**
+ * Escreve os estados finais do AFD, um por linha, no arquivo txt
+ * @param statesSet Conjuntos de estados finais
+ * @param file Ponteiro para o arquivo
+ */
 void writeFinalStatesInTxt(StateSet *statesSet, FILE *file)
 {
   for (int i = 0; i < statesSet->size; i++)
@@ -177,6 +197,11 @@ void writeFinalStatesInTxt(StateSet *statesSet, FILE *file)
   }
 }
 
+/**
+ * Exporta o AFD em formato .txt
+ * @param filename Nome do arquivo a ser exportado
+ * @param afd AFD em memória a ser escrito no arquivo
+ */
 void exportAfdTxt(char *filename, Afd *afd)
 {
   char path[100];
@@ -202,9 +227,12 @@ void exportAfdTxt(char *filename, Afd *afd)
   fclose(file);
 }
 
+/**
+ * Escreve em um arquivo .dot o template para um AFD
+ * @param filename Nome do arquivo .dot
+ */
 FILE *writeDotTemplate(char *filename)
 {
-  printf("NOME DO ARQUIVO .DOT: %s", filename);
   char path[100];
   snprintf(path, sizeof(path), "outputs/%s", filename);
   FILE *file = fopen(path, "wt");
@@ -218,6 +246,11 @@ FILE *writeDotTemplate(char *filename)
   return file;
 }
 
+/**
+ * Escreve os estados finais no arquivo .dot
+ * @param finalStates Conjunto de estados finais
+ * @param file Ponteiro para o arquivo
+ */
 void writeFinalStatesInDot(StateSet *finalStates, FILE *file)
 {
   char *finalStatesString = malloc(200 * sizeof(char));
@@ -242,6 +275,11 @@ void writeFinalStatesInDot(StateSet *finalStates, FILE *file)
   free(finalStatesString);
 }
 
+/**
+ * Escreve as transições do AFD no arquivo .dot
+ * @param transitionSet Conjunto de transições do AFD
+ * @param file Ponteiro para o arquivo
+ */
 void writeTransitionsInDot(TransitionSet *transitionSet, FILE *file)
 {
   for (int i = 0; i < transitionSet->size; i++)
@@ -255,6 +293,11 @@ void writeTransitionsInDot(TransitionSet *transitionSet, FILE *file)
   fprintf(file, "}");
 }
 
+/**
+ * Exporta o AFD em memória em um arquivo .dot
+ * @param filename Nome do arquivo
+ * @param afd AFD em memória
+ */
 void exportAfdDot(char *filename, Afd *afd)
 {
   FILE *file = writeDotTemplate(filename);
