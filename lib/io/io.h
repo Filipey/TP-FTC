@@ -11,6 +11,7 @@ void writeStatesInTxt(StateSet *stateSet, FILE *file);
 void writeSymbolsInTxt(Alphabet *alphabet, FILE *file);
 void writeTransitionsInTxt(TransitionSet *transitionSet, FILE *file);
 void writeFinalStatesInTxt(StateSet *stateSet, FILE *file);
+void writeInitialStateInDot(State *state, FILE *file);
 void writeFinalStatesInDot(StateSet *finalStates, FILE *file);
 void writeTransitionsInDot(TransitionSet *transitionSet, FILE *file);
 

@@ -247,6 +247,20 @@ FILE *writeDotTemplate(char *filename)
 }
 
 /**
+ * Escreve a indicação do Estado inicial no arquivo .dot
+ * @param state Estado inicial
+ * @param file Ponteiro para o arquivo
+ */
+void writeInitialStateInDot(State *state, FILE *file)
+{
+  char *initialStateString = malloc(200 * sizeof(char));
+  memset(initialStateString, 0, 200 * sizeof(char)); // Remove lixo de memória se houver
+  strcpy(initialStateString, state->name);
+  fprintf(file, "  qi -> %s;\n", initialStateString);
+  free(initialStateString);
+}
+
+/**
  * Escreve os estados finais no arquivo .dot
  * @param finalStates Conjunto de estados finais
  * @param file Ponteiro para o arquivo
@@ -301,7 +315,9 @@ void writeTransitionsInDot(TransitionSet *transitionSet, FILE *file)
 void exportAfdDot(char *filename, Afd *afd)
 {
   FILE *file = writeDotTemplate(filename);
+  fprintf(file, "  node [shape = point ]; qi\n");
   writeFinalStatesInDot(afd->finalStates, file);
+  writeInitialStateInDot(afd->initialState, file);
   writeTransitionsInDot(afd->transitions, file);
   fclose(file);
 }
