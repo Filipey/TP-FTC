@@ -69,6 +69,23 @@ void addStateToSet(State *state, StateSet *set, int index)
 }
 
 /**
+ * Remove um Estado de um determinado conjunto
+ * @param state Estado a ser removido
+ * @param set Conjunto de Estados
+ */
+void removeStateFromSet(State *state, StateSet *set)
+{
+  for (int i = 0; i < set->size; i++)
+  {
+    if (strcmp(set->states[i]->name, state->name) == 0)
+    {
+      free(set->states[i]->name);
+      free(set->states[i]);
+    }
+  }
+}
+
+/**
  * Busca por um Estado no conjunto de estados
  * @param stateName Nome do Estado
  * @param set Conjunto de Estados
@@ -80,6 +97,22 @@ State *findStateInSet(char *stateName, StateSet *set)
     if (strcmp(set->states[i]->name, stateName) == 0)
     {
       return set->states[i];
+    }
+  }
+}
+
+/**
+ * Retorna o index do Estado no conjunto
+ * @param state Estado a ser encontrado
+ * @param set Conjunto de Estados
+ */
+int findStateIndex(State *state, StateSet *set)
+{
+  for (int i = 0; i < set->size; i++)
+  {
+    if (strcmp(set->states[i]->name, state->name) == 0)
+    {
+      return i;
     }
   }
 }

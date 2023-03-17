@@ -29,6 +29,8 @@ void freeState(State *state);
 StateSet *initializeStateSet(int size);
 void freeStateSet(StateSet *set);
 void addStateToSet(State *state, StateSet *set, int index);
+void removeStateFromSet(State *state, StateSet *set);
+int findStateIndex(State *state, StateSet *set);
 State *findStateInSet(char *stateName, StateSet *set);
 State *updateStateFinalCondition(State *state, bool newCondition);
 

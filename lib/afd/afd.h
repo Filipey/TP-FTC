@@ -28,4 +28,5 @@ Afd *initializeAfd(Alphabet *alphabet,
                    TransitionSet *transitions);
 
 void freeMemory(Afd *afd);
+void generateComplement(Afd *afd);
 #endif

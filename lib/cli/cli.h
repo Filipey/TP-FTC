@@ -3,5 +3,6 @@
 
 void handleOperations(int argc, char *argv[]);
 void visualization(char *inputFilename, char *outputFileExtension, char *outputFilename);
+void complement(char *inputFilename, char *outputFileExtension, char *outputFilename);
 
 #endif

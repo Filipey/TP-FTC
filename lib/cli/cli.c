@@ -32,6 +32,28 @@ void visualization(char *inputFilename, char *outputFileExtension, char *outputF
   }
 }
 
+void complement(char *inputFilename, char *outputFileExtension, char *outputFilename)
+{
+  Afd *afd = mallocAfdFromFile(inputFilename);
+  generateComplement(afd);
+
+  if (strcmp(outputFileExtension, ".dot") == 0)
+  {
+    exportAfdDot(outputFilename, afd);
+    freeMemory(afd);
+  }
+  else if (strcmp(outputFileExtension, ".txt") == 0)
+  {
+    exportAfdTxt(outputFilename, afd);
+    freeMemory(afd);
+  }
+  else
+  {
+    printf("Erro ao ler o gerar arquivo: %s%s", outputFilename, outputFileExtension);
+    exit(1);
+  }
+}
+
 /**
  * Rotina que trata as entradas do programa via CLI
  * @param argc Número de argumentos inseridos
@@ -42,6 +64,10 @@ void handleOperations(int argc, char *argv[])
   if (strcmp(argv[1], "--visualizacao") == 0 && argc == 5)
   {
     visualization(argv[2], argv[3], argv[4]);
+  }
+  else if (strcmp(argv[1], "--complemento") == 0 && argc == 5)
+  {
+    complement(argv[2], argv[3], argv[4]);
   }
   else
   {
