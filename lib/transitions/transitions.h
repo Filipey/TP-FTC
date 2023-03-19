@@ -28,7 +28,9 @@ typedef struct TransitionSet
 
 Transition *createTransition(char *symbol, State *source, State *sink);
 TransitionSet *initializeTransitionsSet(int size);
-void addTransitionToSet(Transition *transition, TransitionSet *set);
+void addTransitionToSet(Transition *transition, TransitionSet *set, int index);
+State *applyTransition(Transition *transition);
+Transition *findTransitionInSet(char *sourceName, char *symbol, TransitionSet *set);
 void freeTransition(Transition *transition);
 void freeTransitionSet(TransitionSet *set);
 

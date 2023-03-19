@@ -26,7 +26,10 @@ Afd *initializeAfd(Alphabet *alphabet,
                    StateSet *states,
                    StateSet *finalStates,
                    TransitionSet *transitions);
-
+Afd *initializeEmptyAfd();
 void freeMemory(Afd *afd);
 void generateComplement(Afd *afd);
+Afd *generateProduct(Afd *afd1, Afd *afd2);
+Afd *generateIntersection(Afd *afd1, Afd *afd2);
+Afd *generateUnion(Afd *afd1, Afd *afd2);
 #endif

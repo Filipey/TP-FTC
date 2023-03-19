@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "io.h"
+#include "../utils/utils.h"
 
 /**
  * Aloca um AFD em memória com base no arquivo de entrada
@@ -28,6 +29,7 @@ Afd *mallocAfdFromFile(char *filename)
   int statesCount = 0;
   int currentStatesSetLastIndex = 0;
   int currentFinalStatesSetIndex = 0;
+  int currentTransitionSetLastIndex = 0;
   int transitionsCount = 0;
   int symbolsCount = 0;
   int finalStatesCount = 0;
@@ -92,14 +94,21 @@ Afd *mallocAfdFromFile(char *filename)
       {
         remainingTransitions--;
         char *transitionString = fgets(buffer, 100, file);
-        char *sourceStateString = malloc(20 * sizeof(char *));
-        char *symbol = malloc(20 * sizeof(char *));
-        char *sinkStateString = malloc(20 * sizeof(char *));
+        transitionString[strcspn(transitionString, "\n")] = '\0';
+        char *sourceStateString = malloc(80 * sizeof(char *));
+        char *symbol = malloc(80 * sizeof(char *));
+        char *sinkStateString = malloc(80 * sizeof(char *));
+
+        memset(sourceStateString, 0, 80 * sizeof(char));
+        memset(symbol, 0, 80 * sizeof(char));
+        memset(sinkStateString, 0, 80 * sizeof(char));
+
         sscanf(transitionString, "%s %s %s", sourceStateString, symbol, sinkStateString);
         State *sourceState = findStateInSet(sourceStateString, statesSet);
         State *sinkState = findStateInSet(sinkStateString, statesSet);
         Transition *currentTransition = createTransition(symbol, sourceState, sinkState);
-        addTransitionToSet(currentTransition, transitionsSet);
+        addTransitionToSet(currentTransition, transitionsSet, currentTransitionSetLastIndex);
+        currentTransitionSetLastIndex++;
       }
     }
 
@@ -181,6 +190,10 @@ void writeTransitionsInTxt(TransitionSet *transitionsSet, FILE *file)
 {
   for (int i = 0; i < transitionsSet->size; i++)
   {
+    if (transitionsSet->transitions[i] == NULL)
+    {
+      break;
+    }
     char *sourceState = transitionsSet->transitions[i]->source->name;
     char *readedSymbol = transitionsSet->transitions[i]->symbol;
     char *sinkState = transitionsSet->transitions[i]->sink->name;
@@ -260,6 +273,7 @@ void writeInitialStateInDot(State *state, FILE *file)
   char *initialStateString = malloc(200 * sizeof(char));
   memset(initialStateString, 0, 200 * sizeof(char)); // Remove lixo de memória se houver
   strcpy(initialStateString, state->name);
+  removeCommaAndAddUnderline(initialStateString);
   fprintf(file, "  qi -> %s;\n", initialStateString);
   free(initialStateString);
 }
@@ -288,6 +302,8 @@ void writeFinalStatesInDot(StateSet *finalStates, FILE *file)
     }
   }
 
+  removeCommaAndAddUnderline(finalStatesString);
+
   fprintf(file, "  node [shape = doublecircle]; %s;\n", finalStatesString);
   fprintf(file, "  node [shape = circle];\n");
   free(finalStatesString);
@@ -302,9 +318,17 @@ void writeTransitionsInDot(TransitionSet *transitionSet, FILE *file)
 {
   for (int i = 0; i < transitionSet->size; i++)
   {
+    if (transitionSet->transitions[i] == NULL)
+    {
+      break;
+    }
+
     char *sourceState = transitionSet->transitions[i]->source->name;
     char *sinkState = transitionSet->transitions[i]->sink->name;
     char *symbol = transitionSet->transitions[i]->symbol;
+
+    removeCommaAndAddUnderline(sourceState);
+    removeCommaAndAddUnderline(sinkState);
 
     fprintf(file, "  %s -> %s [label = \"%s\"];\n", sourceState, sinkState, symbol);
   }

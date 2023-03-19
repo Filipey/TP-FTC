@@ -99,6 +99,8 @@ State *findStateInSet(char *stateName, StateSet *set)
       return set->states[i];
     }
   }
+
+  return NULL;
 }
 
 /**

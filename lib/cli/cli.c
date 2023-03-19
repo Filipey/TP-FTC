@@ -54,6 +54,33 @@ void complement(char *inputFilename, char *outputFileExtension, char *outputFile
   }
 }
 
+void intersection(char *inputFilename, char *secondInputFilename,
+                  char *outputFileExtension, char *outputFilename)
+{
+  Afd *afd1 = mallocAfdFromFile(inputFilename);
+  Afd *afd2 = mallocAfdFromFile(secondInputFilename);
+
+  Afd *intersection = generateIntersection(afd1, afd2);
+
+  if (strcmp(outputFileExtension, ".dot") == 0)
+  {
+    exportAfdDot(outputFilename, intersection);
+    freeMemory(afd1);
+    freeMemory(afd2);
+  }
+  else if (strcmp(outputFileExtension, ".txt") == 0)
+  {
+    exportAfdTxt(outputFilename, intersection);
+    freeMemory(afd1);
+    freeMemory(afd2);
+  }
+  else
+  {
+    printf("Erro ao ler o gerar arquivo: %s%s", outputFilename, outputFileExtension);
+    exit(1);
+  }
+}
+
 /**
  * Rotina que trata as entradas do programa via CLI
  * @param argc Número de argumentos inseridos
@@ -61,6 +88,7 @@ void complement(char *inputFilename, char *outputFileExtension, char *outputFile
  */
 void handleOperations(int argc, char *argv[])
 {
+
   if (strcmp(argv[1], "--visualizacao") == 0 && argc == 5)
   {
     visualization(argv[2], argv[3], argv[4]);
@@ -68,6 +96,10 @@ void handleOperations(int argc, char *argv[])
   else if (strcmp(argv[1], "--complemento") == 0 && argc == 5)
   {
     complement(argv[2], argv[3], argv[4]);
+  }
+  else if (strcmp(argv[1], "--intersecao") == 0 && argc == 6)
+  {
+    intersection(argv[2], argv[3], argv[4], argv[5]);
   }
   else
   {

@@ -1,5 +1,7 @@
 #include <stdlib.h>
+#include <string.h>
 #include "transitions.h"
+#include "../afd/afd.h"
 
 /**
  * Aloca uma transição em memória
@@ -27,7 +29,7 @@ TransitionSet *initializeTransitionsSet(int size)
 {
   TransitionSet *set = malloc(1 * sizeof(TransitionSet));
   set->size = size;
-  set->transitions = malloc(size * sizeof(Transition));
+  set->transitions = malloc(size * sizeof(Transition *));
 
   return set;
 }
@@ -37,16 +39,33 @@ TransitionSet *initializeTransitionsSet(int size)
  * @param transition Transição a ser adicionada
  * @param set Conjunto de transições
  */
-void addTransitionToSet(Transition *transition, TransitionSet *set)
+void addTransitionToSet(Transition *transition, TransitionSet *set, int index)
+{
+  set->transitions[index] = malloc(sizeof(Transition));
+  set->transitions[index]->source = transition->source;
+  set->transitions[index]->sink = transition->sink;
+  set->transitions[index]->symbol = malloc(100 * sizeof(char));
+  strcpy(set->transitions[index]->symbol, transition->symbol);
+}
+
+Transition *findTransitionInSet(char *sourceName, char *symbol, TransitionSet *set)
 {
   for (int i = 0; i < set->size; i++)
   {
-    if (set->transitions[i] == NULL)
+    Transition *currentTransition = set->transitions[i];
+    if (strcmp(currentTransition->source->name, sourceName) == 0 &&
+        strcmp(currentTransition->symbol, symbol) == 0)
     {
-      set->transitions[i] = transition;
-      return;
+      return currentTransition;
     }
   }
+
+  return NULL;
+}
+
+State *applyTransition(Transition *transition)
+{
+  return transition->sink;
 }
 
 /**
