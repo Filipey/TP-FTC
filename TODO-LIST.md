@@ -8,4 +8,4 @@
 - [x] Ler dois AFDs e exportar um novo AFD que reconheça a união entre as suas respectivas linguagens
 - [x] Ler dois AFDs e exportar um novo AFD que reconheça a interseção entre suas respectivas linguagens
 - [ ] Ler um AFD e exportar um novo AFD minimizado
-- [ ] Ler um AFD e palavras testes e posteriormente exportar um novo arquivo que responde se a palavra pertence ou não à linguagem
+- [x] Ler um AFD e palavras testes e posteriormente exportar um novo arquivo que responde se a palavra pertence ou não à linguagem

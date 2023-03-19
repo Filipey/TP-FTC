@@ -77,3 +77,12 @@ void removeCommaAndAddUnderline(char *string)
 
   string[j] = '\0';
 }
+
+char *getCharAtIndex(char *str, int index)
+{
+  char *ptr = str + index;
+  char *result = malloc(2 * sizeof(char));
+  result[0] = *ptr;
+  result[1] = '\0';
+  return result;
+}

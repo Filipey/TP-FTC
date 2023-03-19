@@ -227,3 +227,27 @@ Afd *generateUnion(Afd *afd1, Afd *afd2)
 
   return product;
 }
+
+Afd *generateMinimization(Afd *afd)
+{
+}
+
+bool recognizeWord(Afd *afd, char *word)
+{
+  State *currentState = afd->initialState;
+
+  for (int i = 0; i < strlen(word); i++)
+  {
+    char *symbol = getCharAtIndex(word, i);
+    Transition *currentTransition = findTransitionInSet(currentState->name, symbol, afd->transitions);
+    currentState = applyTransition(currentTransition);
+    free(symbol);
+  }
+
+  if (currentState->isFinal)
+  {
+    return true;
+  }
+
+  return false;
+}

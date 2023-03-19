@@ -8,5 +8,5 @@ void intersection(char *firstInputFilename, char *secondInputFilename,
                   char *outputFileExtension, char *outputFilename);
 void unionOp(char *firstInputFilename, char *secondInputFilename,
              char *outuputFileExtension, char *outputFilename);
-
+void recognition(char *inputFilename, char *outputFilename, char *afdFilename);
 #endif

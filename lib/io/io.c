@@ -357,3 +357,64 @@ void exportAfdDot(char *filename, Afd *afd)
   writeTransitionsInDot(afd->transitions, file);
   fclose(file);
 }
+
+char *readWords(FILE *file, Afd *afd, int *totalWords)
+{
+  char *resultString = malloc(100 * sizeof(char));
+  memset(resultString, 0, 200 * sizeof(char));
+  char *line;
+  char buffer[100];
+
+  while (!feof(file))
+  {
+    line = fgets(buffer, 100, file);
+    line[strcspn(line, "\r\n")] = '\0';
+
+    if (recognizeWord(afd, line))
+    {
+      strcat(resultString, "1\n");
+    }
+    else
+    {
+      strcat(resultString, "0\n");
+    }
+
+    (*totalWords) += 2; // Adicionando o caractere '\n'
+  }
+
+  return resultString;
+}
+
+void writeWordIsRecognized(Afd *afd, char *inputFilename, char *outputFilename)
+{
+  char inputPath[100];
+  char outputPath[100];
+  snprintf(inputPath, sizeof(inputPath), "inputs/%s", inputFilename);
+  snprintf(outputPath, sizeof(outputPath), "outputs/%s", outputFilename);
+
+  FILE *wordsFile = fopen(inputPath, "rt");
+  if (wordsFile == NULL)
+  {
+    printf("Não foi possível encontrar o arquivo %s", inputPath);
+    exit(1);
+  }
+
+  FILE *recognitionFile = fopen(outputPath, "wt");
+
+  if (recognitionFile == NULL)
+  {
+    printf("Não foi possível encontrar o arquivo %s", inputPath);
+    exit(1);
+  }
+
+  int totalWords = 0;
+  char *resultString = readWords(wordsFile, afd, &totalWords);
+
+  for (int i = 0; i < totalWords - 1; i++)
+  {
+    fputc(resultString[i], recognitionFile);
+  }
+
+  fclose(wordsFile);
+  fclose(recognitionFile);
+}

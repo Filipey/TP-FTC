@@ -14,5 +14,7 @@ void writeFinalStatesInTxt(StateSet *stateSet, FILE *file);
 void writeInitialStateInDot(State *state, FILE *file);
 void writeFinalStatesInDot(StateSet *finalStates, FILE *file);
 void writeTransitionsInDot(TransitionSet *transitionSet, FILE *file);
+char *readWords(FILE *file, Afd *afd, int *totalWords);
+void writeWordIsRecognized(Afd *afd, char *inputFilename, char *outputFilename);
 
 #endif

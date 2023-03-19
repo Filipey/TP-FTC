@@ -108,6 +108,14 @@ void unionOp(char *inputFilename, char *secondInputFilename,
   }
 }
 
+void recognition(char *inputFilename, char *outputFilename, char *afdFilename)
+{
+  Afd *afd = mallocAfdFromFile(afdFilename);
+
+  writeWordIsRecognized(afd, inputFilename, outputFilename);
+  free(afd);
+}
+
 /**
  * Rotina que trata as entradas do programa via CLI
  * @param argc Número de argumentos inseridos
@@ -131,6 +139,10 @@ void handleOperations(int argc, char *argv[])
   else if (strcmp(argv[1], "--uniao") == 0 && argc == 6)
   {
     unionOp(argv[2], argv[3], argv[4], argv[5]);
+  }
+  else if (strcmp(argv[1], "--reconhecer") == 0 && argc == 5)
+  {
+    recognition(argv[2], argv[3], argv[4]);
   }
   else
   {
