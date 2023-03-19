@@ -164,7 +164,9 @@ void writeStatesInTxt(StateSet *stateSet, FILE *file)
 {
   for (int i = 0; i < stateSet->size; i++)
   {
-    fprintf(file, "%s\n", stateSet->states[i]->name);
+    char *stateName = stateSet->states[i]->name;
+    removeCommaAndAddUnderline(stateName);
+    fprintf(file, "%s\n", stateName);
   }
 }
 
@@ -197,6 +199,10 @@ void writeTransitionsInTxt(TransitionSet *transitionsSet, FILE *file)
     char *sourceState = transitionsSet->transitions[i]->source->name;
     char *readedSymbol = transitionsSet->transitions[i]->symbol;
     char *sinkState = transitionsSet->transitions[i]->sink->name;
+
+    removeCommaAndAddUnderline(sourceState);
+    removeCommaAndAddUnderline(readedSymbol);
+    removeCommaAndAddUnderline(sinkState);
     fprintf(file, "%s %s %s\n", sourceState, readedSymbol, sinkState);
   }
 }
@@ -210,7 +216,9 @@ void writeFinalStatesInTxt(StateSet *statesSet, FILE *file)
 {
   for (int i = 0; i < statesSet->size; i++)
   {
-    fprintf(file, "%s\n", statesSet->states[i]->name);
+    char *stateName = statesSet->states[i]->name;
+    removeCommaAndAddUnderline(stateName);
+    fprintf(file, "%s\n", stateName);
   }
 }
 
@@ -293,16 +301,16 @@ void writeFinalStatesInDot(StateSet *finalStates, FILE *file)
     char *currentState = finalStates->states[i]->name;
     if (i == finalStates->size - 1) // Se for o último estado final, não é necessário espaçamento
     {
+      removeCommaAndAddUnderline(currentState);
       strcat(finalStatesString, currentState);
     }
     else
     {
+      removeCommaAndAddUnderline(currentState);
       strcat(currentState, " ");
       strcat(finalStatesString, currentState);
     }
   }
-
-  removeCommaAndAddUnderline(finalStatesString);
 
   fprintf(file, "  node [shape = doublecircle]; %s;\n", finalStatesString);
   fprintf(file, "  node [shape = circle];\n");

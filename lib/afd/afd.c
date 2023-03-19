@@ -199,7 +199,9 @@ Afd *generateIntersection(Afd *afd1, Afd *afd2)
 Afd *generateUnion(Afd *afd1, Afd *afd2)
 {
   Afd *product = generateProduct(afd1, afd2);
-  int totalFinalStates = afd1->finalStates->size * afd2->finalStates->size;
+  int totalFinalStates = (afd1->finalStates->size * getTotalOfNonFinalStates(afd2->states)) +
+                         (getTotalOfNonFinalStates(afd1->states) * afd2->finalStates->size) + (afd1->finalStates->size * afd2->finalStates->size);
+
   product->finalStates = initializeStateSet(totalFinalStates);
 
   int productFinalStateSetIndex = 0;

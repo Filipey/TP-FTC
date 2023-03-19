@@ -81,6 +81,33 @@ void intersection(char *inputFilename, char *secondInputFilename,
   }
 }
 
+void unionOp(char *inputFilename, char *secondInputFilename,
+             char *outputFileExtension, char *outputFilename)
+{
+  Afd *afd1 = mallocAfdFromFile(inputFilename);
+  Afd *afd2 = mallocAfdFromFile(secondInputFilename);
+
+  Afd *intersection = generateUnion(afd1, afd2);
+
+  if (strcmp(outputFileExtension, ".dot") == 0)
+  {
+    exportAfdDot(outputFilename, intersection);
+    freeMemory(afd1);
+    freeMemory(afd2);
+  }
+  else if (strcmp(outputFileExtension, ".txt") == 0)
+  {
+    exportAfdTxt(outputFilename, intersection);
+    freeMemory(afd1);
+    freeMemory(afd2);
+  }
+  else
+  {
+    printf("Erro ao ler o gerar arquivo: %s%s", outputFilename, outputFileExtension);
+    exit(1);
+  }
+}
+
 /**
  * Rotina que trata as entradas do programa via CLI
  * @param argc Número de argumentos inseridos
@@ -100,6 +127,10 @@ void handleOperations(int argc, char *argv[])
   else if (strcmp(argv[1], "--intersecao") == 0 && argc == 6)
   {
     intersection(argv[2], argv[3], argv[4], argv[5]);
+  }
+  else if (strcmp(argv[1], "--uniao") == 0 && argc == 6)
+  {
+    unionOp(argv[2], argv[3], argv[4], argv[5]);
   }
   else
   {

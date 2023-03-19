@@ -126,3 +126,18 @@ State *updateStateFinalCondition(State *state, bool newCondition)
 {
   state->isFinal = newCondition;
 }
+
+int getTotalOfNonFinalStates(StateSet *set)
+{
+  int total = 0;
+
+  for (int i = 0; i < set->size; i++)
+  {
+    if (!set->states[i]->isFinal)
+    {
+      total++;
+    }
+  }
+
+  return total;
+}

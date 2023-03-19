@@ -33,5 +33,6 @@ void removeStateFromSet(State *state, StateSet *set);
 int findStateIndex(State *state, StateSet *set);
 State *findStateInSet(char *stateName, StateSet *set);
 State *updateStateFinalCondition(State *state, bool newCondition);
+int getTotalOfNonFinalStates(StateSet *set);
 
 #endif

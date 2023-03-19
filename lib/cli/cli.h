@@ -6,5 +6,7 @@ void visualization(char *inputFilename, char *outputFileExtension, char *outputF
 void complement(char *inputFilename, char *outputFileExtension, char *outputFilename);
 void intersection(char *firstInputFilename, char *secondInputFilename,
                   char *outputFileExtension, char *outputFilename);
+void unionOp(char *firstInputFilename, char *secondInputFilename,
+             char *outuputFileExtension, char *outputFilename);
 
 #endif
