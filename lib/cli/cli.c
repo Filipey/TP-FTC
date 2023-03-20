@@ -116,6 +116,27 @@ void recognition(char *inputFilename, char *outputFilename, char *afdFilename)
   free(afd);
 }
 
+void minimization(char *inputFilename, char *outputFileExtension, char *outputFilename)
+{
+  Afd *afd = mallocAfdFromFile(inputFilename);
+  generateMinimization(afd);
+  if (strcmp(outputFileExtension, ".dot") == 0)
+  {
+    exportAfdDot(outputFilename, afd);
+    freeMemory(afd);
+  }
+  else if (strcmp(outputFileExtension, ".txt") == 0)
+  {
+    exportAfdTxt(outputFilename, afd);
+    freeMemory(afd);
+  }
+  else
+  {
+    printf("Erro ao ler o gerar arquivo: %s%s", outputFilename, outputFileExtension);
+    exit(1);
+  }
+}
+
 /**
  * Rotina que trata as entradas do programa via CLI
  * @param argc Número de argumentos inseridos

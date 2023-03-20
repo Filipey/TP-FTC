@@ -228,10 +228,12 @@ Afd *generateUnion(Afd *afd1, Afd *afd2)
   return product;
 }
 
-Afd *generateMinimization(Afd *afd)
-{
-}
-
+/**
+ * Classifica uma palavra como reconhecida ou não pelo AFD
+ * @param afd AFD de entrada
+ * @param word Palavra de teste
+ * @return 1 se for aceita e 0 caso contrário
+ */
 bool recognizeWord(Afd *afd, char *word)
 {
   State *currentState = afd->initialState;
@@ -240,6 +242,15 @@ bool recognizeWord(Afd *afd, char *word)
   {
     char *symbol = getCharAtIndex(word, i);
     Transition *currentTransition = findTransitionInSet(currentState->name, symbol, afd->transitions);
+    if (currentTransition == NULL && !currentState->isFinal) // Caso não exista transição
+    {
+      return false;
+    }
+
+    if (currentTransition == NULL && currentState->isFinal) // Caso não exista transição
+    {
+      return true;
+    }
     currentState = applyTransition(currentTransition);
     free(symbol);
   }
@@ -250,4 +261,43 @@ bool recognizeWord(Afd *afd, char *word)
   }
 
   return false;
+}
+
+void *removeUnreachableStatesFromAfd(Afd *afd)
+{
+  StateSet *visitedStates = initializeStateSet(afd->states->size);
+  addStateToSet(afd->initialState, visitedStates, 0);
+  int visitedStatesIndex = 1;
+
+  for (int i = 0; i < afd->states->size; i++)
+  {
+    State *currentState = afd->states->states[i];
+    for (int j = 0; j < afd->alphabet->size; j++)
+    {
+      char *symbol = afd->alphabet->symbols[j];
+      Transition *currentTransition = findTransitionInSet(currentState->name, symbol, afd->transitions);
+
+      if (currentTransition == NULL)
+      {
+        break;
+      }
+
+      State *sinkState = currentTransition->sink;
+
+      if (findStateInSet(sinkState->name, visitedStates) == NULL &&
+          findStateInSet(currentState->name, visitedStates) != NULL)
+      {
+        addStateToSet(sinkState, visitedStates, visitedStatesIndex);
+        visitedStatesIndex++;
+      }
+    }
+  }
+
+  afd->states = visitedStates;
+}
+
+Afd *generateMinimization(Afd *afd)
+{
+  removeUnreachableStatesFromAfd(afd);
+  return afd;
 }

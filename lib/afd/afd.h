@@ -32,6 +32,7 @@ void generateComplement(Afd *afd);
 Afd *generateProduct(Afd *afd1, Afd *afd2);
 Afd *generateIntersection(Afd *afd1, Afd *afd2);
 Afd *generateUnion(Afd *afd1, Afd *afd2);
+void *removeUnreachableStatesFromAfd(Afd *afd);
 Afd *generateMinimization(Afd *afd);
 bool recognizeWord(Afd *afd, char *word);
 #endif

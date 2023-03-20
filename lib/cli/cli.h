@@ -9,4 +9,5 @@ void intersection(char *firstInputFilename, char *secondInputFilename,
 void unionOp(char *firstInputFilename, char *secondInputFilename,
              char *outuputFileExtension, char *outputFilename);
 void recognition(char *inputFilename, char *outputFilename, char *afdFilename);
+void minimization(char *inputFilename, char *outputFileExtension, char *outpurFilename);
 #endif
