@@ -242,7 +242,7 @@ bool recognizeWord(Afd *afd, char *word)
   {
     char *symbol = getCharAtIndex(word, i);
     Transition *currentTransition = findTransitionInSet(currentState->name, symbol, afd->transitions);
-    if (currentTransition == NULL && !currentState->isFinal) // Caso não exista transição
+    if (currentTransition == NULL) // Caso não exista transição
     {
       return false;
     }
