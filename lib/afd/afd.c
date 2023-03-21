@@ -247,10 +247,6 @@ bool recognizeWord(Afd *afd, char *word)
       return false;
     }
 
-    if (currentTransition == NULL && currentState->isFinal) // Caso não exista transição
-    {
-      return true;
-    }
     currentState = applyTransition(currentTransition);
     free(symbol);
   }
